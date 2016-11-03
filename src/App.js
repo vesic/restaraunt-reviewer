@@ -38,8 +38,9 @@ class App extends Component {
   render() {
     return (
       <div className="container">
-        <h3>Hello</h3>
-        {this.renderRestaurants()}
+        <div className="row">
+          {this.renderRestaurants()}
+        </div>
       </div>
     )
   }
