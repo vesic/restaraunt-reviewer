@@ -106,7 +106,9 @@ class App extends Component {
             {this.renderSelectedRestaurant()}
           </div>
           <div className="row">
-            <ReviewList deleteReview={this.deleteReview} reviews={this.state.filteredReviews}/>
+            <ReviewList users={this.state.users}
+              deleteReview={this.deleteReview}
+              reviews={this.state.filteredReviews}/>
           </div>
         </div>
       </div>
