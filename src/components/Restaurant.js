@@ -9,7 +9,11 @@ const Restaurant = (props) => {
     {
       restaurants.map(restaurant => {
         return (
-          <a href="#" className="list-group-item" onClick={() => props.setSelectedRestaurant(restaurant)}>
+          <a key={restaurant._id} href="#" className="list-group-item" onClick={(e) => {
+              e.preventDefault();
+              props.setSelectedRestaurant(restaurant);
+            }
+          }>
             <h4 className="list-group-item-heading">{restaurant.name}</h4>
             <div className="list-group-item-text">
               <AverageRating stars={restaurant.ratings.starsCount.length}/>

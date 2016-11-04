@@ -19,7 +19,6 @@ class AddModal extends Component {
   }
   
   render() {
-    console.log(this.props.review._id)
     let i = `#${this.props.review._id}`, j = `${this.props.review._id}`;
     return (
       <div className="">
@@ -35,11 +34,11 @@ class AddModal extends Component {
               <div className="modal-body">
                 <form onSubmit={this.onSubmit}>
                   <div className="form-group">
-                    <label for="title">Email address</label>
+                    <label htmlFor="title">Email address</label>
                     <input className="form-control" id="title" placeholder="Title" />
                   </div>
                   <div className="form-group">
-                    <label for="content">Content</label>
+                    <label htmlFor="content">Content</label>
                     <textarea className="form-control" rows="3" id="content" onChange={this.handleChange} value={this.props.review.text} ></textarea>
                   </div>
                   <button type="submit" className="btn btn-default">Submit</button>

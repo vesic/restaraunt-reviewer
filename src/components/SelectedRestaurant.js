@@ -2,7 +2,6 @@ import React from 'react'
 import RestaurantMap from './RestaurantMap';
 
 const SelectedRestaurant = ({restaurant}) => {
-  console.log('restaurant', restaurant)
   return (
     <div className="col-xs-6">
       <div className="well">

@@ -3,7 +3,6 @@ import Review from './Review';
 import Modal from './Modal';
 
 const ReviewList = (props) => {
-  console.log('from reviewlist ', props)
   return (
     <div className="col-xs-10 col-xs-offset-1">
       <div className="page-header">
@@ -16,7 +15,7 @@ const ReviewList = (props) => {
           </div>
         </div>
       </div>
-      { props.reviews.map(r => <Review deleteReview={props.deleteReview} review={r}/>) }
+      { props.reviews.map(r => <Review key={r._id} deleteReview={props.deleteReview} review={r}/>) }
     </div>
   )
 }

@@ -20,9 +20,10 @@ class App extends Component {
 
     axios.all([
         axios.get('https://restrest.herokuapp.com/dusan-vesic/restaurant'),
-        axios.get('https://restrest.herokuapp.com/dusan-vesic/review/')
+        axios.get('https://restrest.herokuapp.com/dusan-vesic/review/'),
+        axios.get('https://restrest.herokuapp.com/dusan-vesic/user')
       ])
-      .then(axios.spread((restaurantResponse, reviewResponse) => {
+      .then(axios.spread((restaurantResponse, reviewResponse, userResponse) => {
 
         let ratings = _(reviewResponse.data)
                     .groupBy(x => x.restaurant)
@@ -46,28 +47,17 @@ class App extends Component {
         this.setState({
           restaurants,
           selectedRestaurant: restaurants[0],
-          reviews: reviewResponse.data
+          reviews: reviewResponse.data,
+          users: userResponse.data
         }, () => {
-          console.log('selectedRestaurant', this.state.selectedRestaurant['_id'])
-          // console.log(reviewResponse.data.filter(rev => rev.restaurant === 'ZHVzYW4tdmVzaWMtcmVzdGF1cmFudHMtMQ=='))
-          let filteredReviews = this.state.reviews.filter(review => review.restaurant == this.state.selectedRestaurant['_id']);
-          this.setState({filteredReviews}, () => console.log('CHANGE'));
-          console.log('filtered', filteredReviews)
+          let filteredReviews = this.state.reviews.filter(review => review.restaurant === this.state.selectedRestaurant['_id']);
+          this.setState({filteredReviews}, () => {
+            //
+          });
         });
         
-        // this.setState({
-        //   restaurants,
-        //   selectedRestaurant: restaurants[0]
-        // }, () => { 
-        //     console.log(this.state.restaurants)
-        //     this.setState({
-        //       'foo':'bar'
-        //     }, () => console.log(this.state.fo))
-        //     })
-            
-        
-          })
-        );
+      })
+    );
   }
 
   renderRestaurants() {
@@ -96,8 +86,8 @@ class App extends Component {
 
   setSelectedRestaurant(selectedRestaurant) {
     this.setState({selectedRestaurant}, () => {
-      let filteredReviews = this.state.reviews.filter(review => review.restaurant == this.state.selectedRestaurant['_id']);
-      this.setState({filteredReviews}, () => console.log('omg', this.state.filteredReviews));
+      let filteredReviews = this.state.reviews.filter(review => review.restaurant === this.state.selectedRestaurant['_id']);
+      this.setState({filteredReviews});
     });
   }
 

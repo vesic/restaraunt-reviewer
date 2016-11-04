@@ -2,9 +2,9 @@ import React from 'react';
 import {Gmaps} from 'react-gmaps';
 
 class RestaurantMap extends React.Component {
-  constructor(props) {
-    super(props)
-  }
+  // constructor(props) {
+  //   super(props)
+  // }
 
   onMapCreated(map) {
     map.setOptions({
