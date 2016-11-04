@@ -3,6 +3,7 @@ import RestaurantList from './components/RestaurantList';
 import SelectedRestaurant from './components/SelectedRestaurant';
 import NavBar from './components/NavBar'
 import PageHeader from './components/PageHeader'
+import ReviewList from './components/ReviewList'
 import axios from 'axios';
 import _ from 'lodash';
 
@@ -10,7 +11,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // restaurants: []
+      filteredReviews: []
     };
     this.setSelectedRestaurant = this.setSelectedRestaurant.bind(this);
   }
@@ -39,15 +40,34 @@ class App extends Component {
             }
           }
         }
-
+        
         // console.table(restaurants);
 
         this.setState({
           restaurants,
-          selectedRestaurant: restaurants[0]
-        }, () => console.log('State set'))
-
-      }));
+          selectedRestaurant: restaurants[0],
+          reviews: reviewResponse.data
+        }, () => {
+          console.log('selectedRestaurant', this.state.selectedRestaurant['_id'])
+          // console.log(reviewResponse.data.filter(rev => rev.restaurant === 'ZHVzYW4tdmVzaWMtcmVzdGF1cmFudHMtMQ=='))
+          let filteredReviews = this.state.reviews.filter(review => review.restaurant == this.state.selectedRestaurant['_id']);
+          this.setState({filteredReviews}, () => console.log('CHANGE'));
+          console.log('filtered', filteredReviews)
+        });
+        
+        // this.setState({
+        //   restaurants,
+        //   selectedRestaurant: restaurants[0]
+        // }, () => { 
+        //     console.log(this.state.restaurants)
+        //     this.setState({
+        //       'foo':'bar'
+        //     }, () => console.log(this.state.fo))
+        //     })
+            
+        
+          })
+        );
   }
 
   renderRestaurants() {
@@ -75,7 +95,10 @@ class App extends Component {
   }
 
   setSelectedRestaurant(selectedRestaurant) {
-    this.setState({selectedRestaurant})
+    this.setState({selectedRestaurant}, () => {
+      let filteredReviews = this.state.reviews.filter(review => review.restaurant == this.state.selectedRestaurant['_id']);
+      this.setState({filteredReviews}, () => console.log('omg', this.state.filteredReviews));
+    });
   }
 
   render() {
@@ -85,8 +108,11 @@ class App extends Component {
         <div className="container">
           <PageHeader />
           <div className="row">
-          {this.renderRestaurants()}
-          {this.renderSelectedRestaurant()}
+            {this.renderRestaurants()}
+            {this.renderSelectedRestaurant()}
+          </div>
+          <div className="row">
+            <ReviewList reviews={this.state.filteredReviews}/>
           </div>
         </div>
       </div>

@@ -8,11 +8,11 @@ const AverageRating = (props) => {
   }
   return (stars.length > 0) ? (
     <div className=''>
-      <h3>{stars}</h3>
+      {stars}
     </div>
   ) : (
     <div className=''>
-      <h3>0</h3>
+      <span>0</span>
     </div>
   )
 }
