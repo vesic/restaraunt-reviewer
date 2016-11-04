@@ -12,7 +12,7 @@ const AverageRating = (props) => {
     </div>
   ) : (
     <div className=''>
-      <span>0</span>
+      <span className="glyphicon glyphicon-ban-circle"></span>
     </div>
   )
 }

@@ -101,6 +101,10 @@ class App extends Component {
     });
   }
 
+  deleteReview(review) {
+    alert(review._id + ' deleted! But not really.')
+  }
+  
   render() {
     return (
       <div>
@@ -112,7 +116,7 @@ class App extends Component {
             {this.renderSelectedRestaurant()}
           </div>
           <div className="row">
-            <ReviewList reviews={this.state.filteredReviews}/>
+            <ReviewList deleteReview={this.deleteReview} reviews={this.state.filteredReviews}/>
           </div>
         </div>
       </div>
