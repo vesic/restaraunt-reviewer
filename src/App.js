@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import RestaurantList from './components/RestaurantList';
+import SelectedRestaurant from './components/SelectedRestaurant';
 import NavBar from './components/NavBar'
 import axios from 'axios';
 import _ from 'lodash';
@@ -10,6 +11,7 @@ class App extends Component {
     this.state = {
       // restaurants: []
     };
+    this.setSelectedRestaurant = this.setSelectedRestaurant.bind(this);
   }
 
   componentDidMount() {
@@ -25,30 +27,6 @@ class App extends Component {
                     .map((value, key) => ({_id: key, starsCount: value}))
                     .value();
 
-        // console.table(ratings);
-        // for (let i of ratings) {
-        //   console.log(i);
-        // }
-        // console.table(restaurantResponse.data);
-        // calculate ratings
-        // let ratings = {};
-        // for (let i of reviewResponse.data) {
-          // console.log(i);
-          // ratings[i.restaurant] = ratings[i.restaurant] || 0;
-          // ratings.count = 0;
-          // if (ratings[i.restaurant] !== 0 || ratings[i.restaurant] != undefined)  {
-          //   ratings[i.restaurant] += i.stars;
-          //   ratings.count += 1;
-          // }
-
-        // }
-
-        // console.table(ratings);
-        // for (let i of Object.keys(ratings)) {
-        //   console.log(i, ratings[i]);
-        // }
-
-        // merge ratings in
         let restaurants = restaurantResponse.data;
         for (let i of restaurants) {
           for (let j of ratings) {
@@ -61,7 +39,7 @@ class App extends Component {
           }
         }
 
-        console.table(restaurants);
+        // console.table(restaurants);
 
         this.setState({
           restaurants,
@@ -69,29 +47,34 @@ class App extends Component {
         }, () => console.log('State set'))
 
       }));
-
-    // axios.get('https://restrest.herokuapp.com/dusan-vesic/restaurant')
-    //   .then((response) => {
-    //     console.log(response);
-    //     this.setState({
-    //       restaurants: response.data
-    //     }, () => console.log('set'))
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
   }
 
   renderRestaurants() {
     if (this.state.restaurants) {
       return (
-        <RestaurantList restaurants={this.state.restaurants} />
+        <RestaurantList setSelectedRestaurant={this.setSelectedRestaurant} restaurants={this.state.restaurants} />
       )
     } else {
       return (
         <div>Loading...</div>
       )
     }
+  }
+
+  renderSelectedRestaurant() {
+    if (this.state.restaurants) {
+      return (
+        <SelectedRestaurant restaurant={this.state.selectedRestaurant} />
+      )
+    } else {
+      return (
+        <div>Loading...</div>
+      )
+    }
+  }
+
+  setSelectedRestaurant(selectedRestaurant) {
+    this.setState({selectedRestaurant})
   }
 
   render() {
@@ -101,6 +84,7 @@ class App extends Component {
         <div className="container">
           <div className="row">
           {this.renderRestaurants()}
+          {this.renderSelectedRestaurant()}
           </div>
         </div>
       </div>
