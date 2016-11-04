@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import RestaurantList from './components/RestaurantList';
+import NavBar from './components/NavBar'
 import axios from 'axios';
 import _ from 'lodash';
 
@@ -63,8 +64,9 @@ class App extends Component {
         console.table(restaurants);
 
         this.setState({
-          restaurants
-        }, () => console.log('Data set.'))
+          restaurants,
+          selectedRestaurant: restaurants[0]
+        }, () => console.log('State set'))
 
       }));
 
@@ -94,9 +96,12 @@ class App extends Component {
 
   render() {
     return (
-      <div className="container">
-        <div className="row">
+      <div>
+        <NavBar />
+        <div className="container">
+          <div className="row">
           {this.renderRestaurants()}
+          </div>
         </div>
       </div>
     )
