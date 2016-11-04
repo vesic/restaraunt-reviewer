@@ -1,4 +1,5 @@
 import React from 'react'
+import RestaurantMap from './RestaurantMap';
 
 const SelectedRestaurant = ({restaurant}) => {
   return (
@@ -6,6 +7,7 @@ const SelectedRestaurant = ({restaurant}) => {
       <div className="well">
         <h3>{restaurant.name}</h3>
         <p>{restaurant.description}</p>
+        <RestaurantMap />
       </div>
     </div>
   )
