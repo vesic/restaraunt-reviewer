@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import RestaurantList from './components/RestaurantList';
 import SelectedRestaurant from './components/SelectedRestaurant';
 import NavBar from './components/NavBar'
+import PageHeader from './components/PageHeader'
 import axios from 'axios';
 import _ from 'lodash';
 
@@ -82,6 +83,7 @@ class App extends Component {
       <div>
         <NavBar />
         <div className="container">
+          <PageHeader />
           <div className="row">
           {this.renderRestaurants()}
           {this.renderSelectedRestaurant()}
