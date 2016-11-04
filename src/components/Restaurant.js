@@ -9,7 +9,7 @@ const Restaurant = (props) => {
       restaurants.map(restaurant => {
         return (
           <a href="#" className="list-group-item">
-            <h4 className="list-group-item-heading">List group item heading</h4>
+            <h4 className="list-group-item-heading">{restaurant.name}</h4>
             <div className="list-group-item-text">
               <AverageRating stars={restaurant.ratings.starsCount.length}/>
             </div>
