@@ -73,7 +73,7 @@ class App extends Component {
       );
     } else {
       return (
-        <div>Loading...</div>
+        <div><h3>Loading...</h3></div>
       );
     }
   }
@@ -91,7 +91,7 @@ class App extends Component {
       );
     } else {
       return (
-        <div>Loading...</div>
+        <div><h3>Loading...</h3></div>
       );
     }
   }
@@ -103,9 +103,10 @@ class App extends Component {
     });
   }
 
-  addReview(reviewText) {
+  addReview(reviewText, starRatings) {
     axios.post('https://restrest.herokuapp.com/review', {
-        reviewText: reviewText
+        reviewText: reviewText,
+        starRatings: starRatings
       })
       .then((response) => {
         // update list if 200 || 201

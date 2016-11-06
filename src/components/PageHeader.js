@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 class PageHeader extends React.Component {
   render () {
@@ -6,7 +6,7 @@ class PageHeader extends React.Component {
       <div className="page-header">
         <h1>Restaurant Reviewer 3.0</h1>
       </div>
-    )
+    );
   }
 }
 

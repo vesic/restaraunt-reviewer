@@ -13,8 +13,6 @@ class Review extends Component {
   }
   
   controls() {
-    // console.log('User ->', this.state.user);
-    // console.log('Logged On', this.props.loggedOnUser)
     let isUserLoggedIn = this.state.user._id === this.props.loggedOnUser._id;
     return (
       <div className="row">

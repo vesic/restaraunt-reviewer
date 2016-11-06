@@ -4,7 +4,6 @@ import $ from 'jquery';
 class ReviewActionModal extends Component {
   constructor(props) {
     super(props);
-    
     this.state = {
       reviewText: this.props.review.text
     };
@@ -18,7 +17,6 @@ class ReviewActionModal extends Component {
       this.setState({errorMessage: 'Content must not be empty!'});
       return;
     }
-    
     $('.close').trigger('click');
     this.props.editReview(this.props.review, this.state.reviewText);
   }
@@ -28,6 +26,7 @@ class ReviewActionModal extends Component {
   }
   
   render() {
+    // modal random id
     let r = Math.random().toString().slice(2), i = `#${r}`, j = `${r}`;
     return (
       <div className="">

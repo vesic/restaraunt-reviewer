@@ -1,10 +1,10 @@
 import React from 'react'
 import Restaurant from './Restaurant';
 
-const RestaurantList = (props) => {
+const RestaurantList = ({setSelectedRestaurant, restaurants}) => {
   return (
     <div className="col-xs-6">
-      <Restaurant setSelectedRestaurant={props.setSelectedRestaurant} restaurants={props.restaurants}/>
+      <Restaurant setSelectedRestaurant={setSelectedRestaurant} restaurants={restaurants}/>
     </div>
   )
 }

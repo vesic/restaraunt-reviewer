@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import $ from 'jquery'
+import StarRatingComponent from 'react-star-rating-component';
+import $ from 'jquery';
 
 class AddReviewModal extends Component {
   constructor(props) {
     super(props);
-    this.state = {reviewText: '', errorMessage: '', isHidden: true};
+    this.state = {reviewText: '', errorMessage: '', isHidden: true, rating: 1};
     this.handleTextChange = this.handleTextChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onStarClick = this.onStarClick.bind(this);
   }
   
   onSubmit(e) {
@@ -16,13 +18,17 @@ class AddReviewModal extends Component {
       return;
     }
     
-    this.props.addReview(this.state.reviewText);
+    this.props.addReview(this.state.reviewText, this.state.rating);
     this.setState(({reviewText:'', errorMessage:''}));
-    $('.close').trigger("click")
+    $('.close').trigger("click");
   }
   
   handleTextChange(event) {
     this.setState({reviewText: event.target.value});
+  }
+
+  onStarClick(nextValue, prevValue, name) {
+      this.setState({rating: nextValue}, () => console.log('starCount', this.state.rating));
   }
 
   render() {
@@ -44,6 +50,17 @@ class AddReviewModal extends Component {
                     <div className="form-group">
                       <label htmlFor="content">&nbsp;</label>
                       <textarea className="form-control" rows="3" id="content" value={this.state.reviewText} onChange={this.handleTextChange}></textarea>
+                    </div>
+                    <div className='form-group'>
+                    <h3>Star Ratings</h3>
+                    <h1>
+                      <StarRatingComponent 
+                          name="starCount" 
+                          starCount={5}
+                          value={this.state.rating}
+                          onStarClick={this.onStarClick}
+                      />
+                    </h1>
                     </div>
                     <button type="submit" className="btn btn-default">Submit</button>
                   </form>

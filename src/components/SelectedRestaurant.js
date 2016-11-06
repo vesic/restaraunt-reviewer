@@ -16,7 +16,7 @@ const SelectedRestaurant = (props) => {
         <AddReviewModal addReview={props.addReview} restaurant={props.restaurant} loggedOnUser={props.loggedOnUser}/>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default SelectedRestaurant;

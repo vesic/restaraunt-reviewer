@@ -1,20 +1,19 @@
-import React from 'react'
+import React from 'react';
 
-const AverageRating = (props) => {
-  let count = props.stars;
-  let stars = [];
-  for (let i = 0; i < count; i++) {
-    stars.push(<span key={i} className="glyphicon glyphicon-star"></span>)
+const AverageRating = ({stars}) => {
+  let ratings = [];
+  for (let i = 0; i < stars; i++) {
+    ratings.push(<span key={i} className="glyphicon glyphicon-star"></span>);
   }
-  return (stars.length > 0) ? (
+  return (ratings.length > 0) ? (
     <div className=''>
-      {stars}
+      {ratings}
     </div>
   ) : (
     <div className=''>
       <span className="glyphicon glyphicon-ban-circle"></span>
     </div>
-  )
-}
+  );
+};
 
-export default AverageRating
+export default AverageRating;

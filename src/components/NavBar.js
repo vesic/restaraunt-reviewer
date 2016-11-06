@@ -1,6 +1,6 @@
 import React from 'react'
 
-const NavBar = (props) => {
+const NavBar = ({loggedOnUser}) => {
   return (
     <nav className="navbar navbar-inverse">
       <div className="container-fluid">
@@ -14,17 +14,17 @@ const NavBar = (props) => {
         </div>
         <div className="collapse navbar-collapse" id="myNavbar">
           <ul className="nav navbar-nav">
-            <li className="active"><a href="">Home</a></li>
-            <li><a href="">About</a></li>
-            <li><a href="">Contact</a></li>
+            <li className="active"><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
           </ul>
           <ul className="nav navbar-nav navbar-right">
-            <li><a href="#"><span className="glyphicon glyphicon-user"></span> Hello {props.loggedOnUser.name}</a></li>
+            <li><a href="#"><span className="glyphicon glyphicon-user"></span> Hello {loggedOnUser.name}!</a></li>
           </ul>
         </div>
       </div>
     </nav>
-  )
-}
+  );
+};
 
 export default NavBar;
