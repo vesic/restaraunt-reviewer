@@ -4,7 +4,7 @@ const AverageRating = (props) => {
   let count = props.stars;
   let stars = [];
   for (let i = 0; i < count; i++) {
-    stars.push(<span key={i} className="glyphicon glyphicon-star-empty"></span>)
+    stars.push(<span key={i} className="glyphicon glyphicon-star"></span>)
   }
   return (stars.length > 0) ? (
     <div className=''>

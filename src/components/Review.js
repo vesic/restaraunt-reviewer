@@ -1,29 +1,48 @@
-import React from 'react'
+import React, { Component } from 'react';
+import ReviewActionModal from './ReviewActionModal';
 import moment from 'moment';
-import AddModal from './AddModal';
 import _ from 'lodash';
 
-const Review = (props) => {
-  let user = _.find(props.users, user => user._id === props.review.user);
-  return (
-    <div className="panel panel-default">
-      <div className="panel-heading">
-        <h3 className="panel-title"><strong>{user.name} </strong>posted {moment(props.review.date, "YYYYMMDD").fromNow()}</h3>
-      </div>
-      <div className="panel-body">
-        {props.review.text}
-        <hr />
-        <div className="row">
-          <div className="col-xs-6">
-            <button onClick={() => props.deleteReview(props.review)} className="btn btn-danger">Delete</button>
-          </div>
-          <div className="col-xs-6">
-            <AddModal review={props.review} />
-          </div>
+class Review extends Component {
+  constructor(props) { 
+    super(props);
+    
+    this.state = {
+      user: _.find(this.props.users, user => user._id === this.props.review.user)
+    };
+  }
+  
+  controls() {
+    // console.log('User ->', this.state.user);
+    // console.log('Logged On', this.props.loggedOnUser)
+    let isUserLoggedIn = this.state.user._id === this.props.loggedOnUser._id;
+    return (
+      <div className="row">
+        <div className="col-xs-6">
+          <button onClick={() => this.props.deleteReview(this.props.review)} className="btn btn-danger" disabled={!isUserLoggedIn} >Delete</button>
+        </div>
+        <div className="col-xs-6">
+          <ReviewActionModal review={this.props.review} isUserLoggedIn={isUserLoggedIn} editReview={this.props.editReview} />
+        </div>
+      </div>  
+    );
+  }
+  
+  render() {
+    return (
+      <div className="panel panel-default">
+        <div className="panel-heading">
+          <h3 className="panel-title"><strong>{this.state.user.name} </strong>posted {moment(this.props.review.date, "YYYYMMDD").fromNow()}</h3>
+        </div>
+        <div className="panel-body">
+          {this.props.review.text}
+        </div>
+        <div className="panel-footer">
+          {this.controls()}
         </div>
       </div>
-    </div>
-  )
+    );
+  }
 }
 
 export default Review;
