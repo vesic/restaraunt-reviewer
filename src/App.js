@@ -26,7 +26,6 @@ class App extends Component {
         axios.get('https://restrest.herokuapp.com/dusan-vesic/user')
       ])
       .then(axios.spread((restaurantResponse, reviewResponse, userResponse) => {
-
         let ratings = _(reviewResponse.data)
                     .groupBy(x => x.restaurant)
                     .map((value, key) => ({_id: key, starsCount: value}))
@@ -39,7 +38,7 @@ class App extends Component {
               i['ratings'] = j;
               break;
             } else {
-              i['ratings'] = {starsCount: []}
+              i['ratings'] = {starsCount: []};
             }
           }
         }
@@ -63,26 +62,37 @@ class App extends Component {
   }
 
   renderRestaurants() {
+    let props = {
+      setSelectedRestaurant: this.setSelectedRestaurant,
+      restaurants: this.state.restaurants
+    };
     if (this.state.restaurants) {
       return (
-        <RestaurantList setSelectedRestaurant={this.setSelectedRestaurant} restaurants={this.state.restaurants} />
-      )
+        /* <RestaurantList setSelectedRestaurant={this.setSelectedRestaurant} restaurants={this.state.restaurants} /> */
+        <RestaurantList {...props} />
+      );
     } else {
       return (
         <div>Loading...</div>
-      )
+      );
     }
   }
 
   renderSelectedRestaurant() {
+    let props = {
+      addReview: this.addReview,
+      restaurant: this.state.selectedRestaurant,
+      loggedOnUser: this.state.loggedOnUser
+    };
     if (this.state.restaurants) {
       return (
-        <SelectedRestaurant  addReview={this.addReview} restaurant={this.state.selectedRestaurant} loggedOnUser={this.state.loggedOnUser} />
-      )
+        /* <SelectedRestaurant  addReview={this.addReview} restaurant={this.state.selectedRestaurant} loggedOnUser={this.state.loggedOnUser} /> */
+        <SelectedRestaurant {...props} />
+      );
     } else {
       return (
         <div>Loading...</div>
-      )
+      );
     }
   }
 
@@ -98,14 +108,39 @@ class App extends Component {
         reviewText: reviewText
       })
       .then((response) => {
-        console.log(response);
-        /*
-        if (response === 200) {
-          // update state
+        // update list if 200 || 201
+        if (response.status === 200) {
+          axios.all([
+            axios.get('https://restrest.herokuapp.com/dusan-vesic/restaurant'),
+            axios.get('https://restrest.herokuapp.com/dusan-vesic/review/')
+            ])
+            .then(axios.spread((restaurantResponse, reviewResponse, userResponse) => {
+              let ratings = _(reviewResponse.data)
+                          .groupBy(x => x.restaurant)
+                          .map((value, key) => ({_id: key, starsCount: value}))
+                          .value();
+      
+              let restaurants = restaurantResponse.data;
+              for (let i of restaurants) {
+                for (let j of ratings) {
+                  if (i._id === j._id) {
+                    i['ratings'] = j;
+                    break;
+                  } else {
+                    i['ratings'] = {starsCount: []};
+                  }
+                }
+              }
+              
+              this.setState({
+                restaurants,
+                reviews: reviewResponse.data,
+              });
+            })
+          );
         } else {
           // revert
         }
-        */
       })
       .catch((error) => {
         console.log(error);
@@ -116,18 +151,43 @@ class App extends Component {
     if (confirm("Are you sure?")) {
       axios.post(`https://restrest.herokuapp.com/review/${review._id}`)
         .then((response) => {
-          console.log(response);
-          /*
+          // update list if 200 || 201
           if (response.status === 201) {
-            
+            axios.all([
+              axios.get('https://restrest.herokuapp.com/dusan-vesic/restaurant'),
+              axios.get('https://restrest.herokuapp.com/dusan-vesic/review/')
+              ])
+              .then(axios.spread((restaurantResponse, reviewResponse, userResponse) => {
+                let ratings = _(reviewResponse.data)
+                            .groupBy(x => x.restaurant)
+                            .map((value, key) => ({_id: key, starsCount: value}))
+                            .value();
+        
+                let restaurants = restaurantResponse.data;
+                for (let i of restaurants) {
+                  for (let j of ratings) {
+                    if (i._id === j._id) {
+                      i['ratings'] = j;
+                      break;
+                    } else {
+                      i['ratings'] = {starsCount: []};
+                    }
+                  }
+                }
+                
+                this.setState({
+                  restaurants,
+                  reviews: reviewResponse.data,
+                });
+              })
+            );
           }
-          */
         })
         .catch((error) => {
           console.log(error);
         });
         // if created
-        alert(review._id + ' deleted! But not really.')
+        alert(review._id + ' deleted! But not really.');
     }
   }
   
@@ -138,8 +198,8 @@ class App extends Component {
       })
       .then((response) => {
         /*
-        if (response === 201) {
-          // update state
+        if (response.status === 200) {
+          // update
         }
         */
         console.log(response);
@@ -149,10 +209,18 @@ class App extends Component {
       });
       
       // if created
-      alert(review._id + '\nUpdated! But not really.')
+      alert(review._id + '\nUpdated! But not really.');
   }
   
   render() {
+    let props = {
+      users: this.state.users,
+      deleteReview: this.deleteReview,
+      editReview: this.editReview,
+      reviews: this.state.filteredReviews,
+      loggedOnUser: this.state.loggedOnUser
+    };
+    
     return (
       <div>
         <NavBar loggedOnUser={this.state.loggedOnUser}/>
@@ -163,15 +231,18 @@ class App extends Component {
             {this.renderSelectedRestaurant()}
           </div>
           <div className="row">
+            <ReviewList {...props} />
+            {/*
             <ReviewList users={this.state.users}
               deleteReview={this.deleteReview}
               editReview={this.editReview}
               reviews={this.state.filteredReviews}
               loggedOnUser={this.state.loggedOnUser}/>
+            */}
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 

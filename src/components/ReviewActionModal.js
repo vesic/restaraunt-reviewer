@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import $ from 'jquery';
 
 class ReviewActionModal extends Component {
   constructor(props) {
@@ -12,12 +13,13 @@ class ReviewActionModal extends Component {
   }
   
   onSubmit(e) {
+    e.preventDefault();
     if (this.state.reviewText === '') {
-      e.preventDefault();
       this.setState({errorMessage: 'Content must not be empty!'});
       return;
     }
     
+    $('.close').trigger('click');
     this.props.editReview(this.props.review, this.state.reviewText);
   }
   

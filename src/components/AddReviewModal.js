@@ -1,21 +1,24 @@
 import React, { Component } from 'react';
+import $ from 'jquery'
 
 class AddReviewModal extends Component {
   constructor(props) {
     super(props);
-    this.state = {reviewText: '', errorMessage: ''};
+    this.state = {reviewText: '', errorMessage: '', isHidden: true};
     this.handleTextChange = this.handleTextChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
   
   onSubmit(e) {
+    e.preventDefault();
     if (this.state.reviewText === '') {
-      e.preventDefault();
       this.setState({errorMessage: 'Content must not be empty!'});
       return;
     }
     
     this.props.addReview(this.state.reviewText);
+    this.setState(({reviewText:'', errorMessage:''}));
+    $('.close').trigger("click")
   }
   
   handleTextChange(event) {
@@ -27,7 +30,7 @@ class AddReviewModal extends Component {
       <div className="row">
         <div className="col-xs-12">
           <button type="button" className="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal"><span className="glyphicon glyphicon-plus"></span> Review {this.props.restaurant.name}</button>
-          <div className="modal fade" id="myModal" role="dialog">
+          <div className="modal fade" id="myModal" role="dialog" ref='close'>
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">

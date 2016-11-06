@@ -6,13 +6,14 @@ const SelectedRestaurant = (props) => {
   return (
     <div className="col-xs-6">
       <div className="well">
-        <h2>{props.restaurant.name}</h2>
-        <hr />
+        <h1>{props.restaurant.name}</h1>
+        <h3>Food: {props.restaurant.cuisine}</h3>
         <p>{props.restaurant.description}</p>
+        <h3>Address: {props.restaurant.address}</h3>
         <hr />
         <RestaurantMap coords={props.restaurant.coords}/>
         <hr />
-        <AddReviewModal  addReview={props.addReview} restaurant={props.restaurant} loggedOnUser={props.loggedOnUser}/>
+        <AddReviewModal addReview={props.addReview} restaurant={props.restaurant} loggedOnUser={props.loggedOnUser}/>
       </div>
     </div>
   )

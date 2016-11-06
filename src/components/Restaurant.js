@@ -3,7 +3,6 @@ import AverageRating from './AverageRating';
 
 const Restaurant = (props) => {
   let restaurants = props.restaurants;
-
   return (
     <div className="list-group">
     {
