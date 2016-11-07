@@ -33,12 +33,10 @@ class ReviewActionModal extends Component {
   }
   
   render() {
-    // modal random id
-    // console.log(this.props.review, 'review'); // delete me
     let r = Math.random().toString().slice(2), i = `#${r}`, j = `${r}`;
     return (
       <div className="">
-        <button disabled={false} type="button" className="btn btn-primary pull-right" data-toggle="modal" data-target={i} disabled={!this.props.isUserLoggedIn} >Edit</button>
+        <button type="button" className="btn btn-primary pull-right" data-toggle="modal" data-target={i} disabled={!this.props.isUserLoggedIn} >Edit</button>
         <div className="modal fade" id={j} role="dialog">
           <div className="modal-dialog">
             <div className="modal-content">

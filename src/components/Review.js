@@ -6,12 +6,9 @@ import _ from 'lodash';
 class Review extends Component {
   constructor(props) { 
     super(props);
-    
     this.state = {
       user: _.find(this.props.users, user => user._id === this.props.review.user)
     };
-    
-    
   }
   
   controls() {
@@ -33,6 +30,7 @@ class Review extends Component {
     for (let i = 0; i < this.props.review.stars; i++) {
       ratings.push(<span key={i} className="glyphicon glyphicon-star"></span>);
     }
+    
     return (
       <div className="panel panel-default">
         <div className="panel-heading">

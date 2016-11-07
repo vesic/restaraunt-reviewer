@@ -19,6 +19,7 @@ class App extends Component {
     this.setSelectedRestaurant = this.setSelectedRestaurant.bind(this);
     this.editReview = this.editReview.bind(this);
     this.deleteReview = this.deleteReview.bind(this);
+    this.updateUI = this.updateUI.bind(this);
   }
 
   componentDidMount() {
@@ -44,8 +45,6 @@ class App extends Component {
             }
           }
         }
-        
-        // console.table(restaurants);
 
         this.setState({
           restaurants,
@@ -63,6 +62,44 @@ class App extends Component {
     );
   }
 
+  updateUI(response) {
+    if (response.status === 200) {
+      axios.all([
+        axios.get('https://restrest.herokuapp.com/dusan-vesic/restaurant'),
+        axios.get('https://restrest.herokuapp.com/dusan-vesic/review/')
+        ])
+        .then(axios.spread((restaurantResponse, reviewResponse, userResponse) => {
+          let ratings = _(reviewResponse.data)
+                      .groupBy(x => x.restaurant)
+                      .map((value, key) => ({_id: key, starsCount: value}))
+                      .value();
+  
+          let restaurants = restaurantResponse.data;
+          for (let i of restaurants) {
+            for (let j of ratings) {
+              if (i._id === j._id) {
+                i['ratings'] = j;
+                break;
+              } else {
+                i['ratings'] = {starsCount: []};
+              }
+            }
+          }
+          
+          this.setState({
+            restaurants,
+            reviews: reviewResponse.data,
+          }, () => {
+            let filteredReviews = this.state.reviews.filter(review => review.restaurant === this.state.selectedRestaurant['_id']);
+            this.setState({filteredReviews, loggedOnUser: this.state.users[0]}, () => {
+              //
+            });
+          });
+        })
+      );
+    }
+  }
+  
   renderRestaurants() {
     let props = {
       setSelectedRestaurant: this.setSelectedRestaurant,
@@ -70,7 +107,6 @@ class App extends Component {
     };
     if (this.state.restaurants) {
       return (
-        /* <RestaurantList setSelectedRestaurant={this.setSelectedRestaurant} restaurants={this.state.restaurants} /> */
         <RestaurantList {...props} />
       );
     } else {
@@ -88,7 +124,6 @@ class App extends Component {
     };
     if (this.state.restaurants) {
       return (
-        /* <SelectedRestaurant  addReview={this.addReview} restaurant={this.state.selectedRestaurant} loggedOnUser={this.state.loggedOnUser} /> */
         <SelectedRestaurant {...props} />
       );
     } else {
@@ -114,42 +149,8 @@ class App extends Component {
         user: this.state.loggedOnUser._id
       })
       .then((response) => {
-        // update list if 200 || 201
-        if (response.status === 200) {
-          axios.all([
-            axios.get('https://restrest.herokuapp.com/dusan-vesic/restaurant'),
-            axios.get('https://restrest.herokuapp.com/dusan-vesic/review/')
-            ])
-            .then(axios.spread((restaurantResponse, reviewResponse, userResponse) => {
-              let ratings = _(reviewResponse.data)
-                          .groupBy(x => x.restaurant)
-                          .map((value, key) => ({_id: key, starsCount: value}))
-                          .value();
-      
-              let restaurants = restaurantResponse.data;
-              for (let i of restaurants) {
-                for (let j of ratings) {
-                  if (i._id === j._id) {
-                    i['ratings'] = j;
-                    break;
-                  } else {
-                    i['ratings'] = {starsCount: []};
-                  }
-                }
-              }
-              
-              this.setState({
-                restaurants,
-                reviews: reviewResponse.data,
-              }, () => {
-                let filteredReviews = this.state.reviews.filter(review => review.restaurant === this.state.selectedRestaurant['_id']);
-                this.setState({filteredReviews, loggedOnUser: this.state.users[0]}, () => {
-                  //
-                });
-              });
-            })
-          );
-        }
+        // update if 200
+        this.updateUI(response);
       })
       .catch((error) => {
         console.log(error, 'error');
@@ -160,42 +161,8 @@ class App extends Component {
     if (confirm("Are you sure?")) {
       axios.delete(`https://restrest.herokuapp.com/dusan-vesic/review/${review._id}`)
         .then((response) => {
-          // update list if 200 || 201
-          if (response.status === 200) {
-            axios.all([
-              axios.get('https://restrest.herokuapp.com/dusan-vesic/restaurant'),
-              axios.get('https://restrest.herokuapp.com/dusan-vesic/review/')
-              ])
-              .then(axios.spread((restaurantResponse, reviewResponse, userResponse) => {
-                let ratings = _(reviewResponse.data)
-                            .groupBy(x => x.restaurant)
-                            .map((value, key) => ({_id: key, starsCount: value}))
-                            .value();
-        
-                let restaurants = restaurantResponse.data;
-                for (let i of restaurants) {
-                  for (let j of ratings) {
-                    if (i._id === j._id) {
-                      i['ratings'] = j;
-                      break;
-                    } else {
-                      i['ratings'] = {starsCount: []};
-                    }
-                  }
-                }
-                
-                this.setState({
-                  restaurants,
-                  reviews: reviewResponse.data,
-                }, () => {
-                  let filteredReviews = this.state.reviews.filter(review => review.restaurant === this.state.selectedRestaurant['_id']);
-                  this.setState({filteredReviews, loggedOnUser: this.state.users[0]}, () => {
-                    //
-                  });
-                });
-              })
-            );
-          }
+          // update if 200
+          this.updateUI(response);
         })
         .catch((error) => {
           console.log(error);
@@ -213,42 +180,8 @@ class App extends Component {
         user: this.state.loggedOnUser._id
       })
       .then((response) => {
-        // update list if 200 || 201
-        if (response.status === 200) {
-          axios.all([
-            axios.get('https://restrest.herokuapp.com/dusan-vesic/restaurant'),
-            axios.get('https://restrest.herokuapp.com/dusan-vesic/review/')
-            ])
-            .then(axios.spread((restaurantResponse, reviewResponse, userResponse) => {
-              let ratings = _(reviewResponse.data)
-                          .groupBy(x => x.restaurant)
-                          .map((value, key) => ({_id: key, starsCount: value}))
-                          .value();
-      
-              let restaurants = restaurantResponse.data;
-              for (let i of restaurants) {
-                for (let j of ratings) {
-                  if (i._id === j._id) {
-                    i['ratings'] = j;
-                    break;
-                  } else {
-                    i['ratings'] = {starsCount: []};
-                  }
-                }
-              }
-              
-              this.setState({
-                restaurants,
-                reviews: reviewResponse.data,
-              }, () => {
-                let filteredReviews = this.state.reviews.filter(review => review.restaurant === this.state.selectedRestaurant['_id']);
-                this.setState({filteredReviews, loggedOnUser: this.state.users[0]}, () => {
-                  //
-                });
-              });
-            })
-          );
-        }
+        // update if 200
+        this.updateUI(response)
       })
       .catch((error) => {
         console.log(error);
@@ -275,13 +208,6 @@ class App extends Component {
           </div>
           <div className="row">
             <ReviewList {...props} />
-            {/*
-            <ReviewList users={this.state.users}
-              deleteReview={this.deleteReview}
-              editReview={this.editReview}
-              reviews={this.state.filteredReviews}
-              loggedOnUser={this.state.loggedOnUser}/>
-            */}
           </div>
         </div>
       </div>
