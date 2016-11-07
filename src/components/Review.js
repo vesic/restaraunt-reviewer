@@ -10,6 +10,8 @@ class Review extends Component {
     this.state = {
       user: _.find(this.props.users, user => user._id === this.props.review.user)
     };
+    
+    
   }
   
   controls() {
@@ -27,6 +29,10 @@ class Review extends Component {
   }
   
   render() {
+    let ratings = [];
+    for (let i = 0; i < this.props.review.stars; i++) {
+      ratings.push(<span key={i} className="glyphicon glyphicon-star"></span>);
+    }
     return (
       <div className="panel panel-default">
         <div className="panel-heading">
@@ -34,6 +40,9 @@ class Review extends Component {
         </div>
         <div className="panel-body">
           {this.props.review.text}
+          <div>
+            <h3>{ratings}</h3>
+          </div>
         </div>
         <div className="panel-footer">
           {this.controls()}

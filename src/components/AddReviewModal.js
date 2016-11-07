@@ -18,7 +18,7 @@ class AddReviewModal extends Component {
       return;
     }
     
-    this.props.addReview(this.state.reviewText, this.state.rating);
+    this.props.addReview(this.state.reviewText, this.state.rating, this.props.restaurant._id);
     this.setState(({reviewText:'', errorMessage:''}));
     $('.close').trigger("click");
   }
@@ -28,7 +28,7 @@ class AddReviewModal extends Component {
   }
 
   onStarClick(nextValue, prevValue, name) {
-      this.setState({rating: nextValue}, () => console.log('starCount', this.state.rating));
+    this.setState({rating: nextValue});
   }
 
   render() {
@@ -57,7 +57,7 @@ class AddReviewModal extends Component {
                       <StarRatingComponent 
                           name="starCount" 
                           starCount={5}
-                          value={this.state.rating}
+                          value={0}
                           onStarClick={this.onStarClick}
                       />
                     </h1>

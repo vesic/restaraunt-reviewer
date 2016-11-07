@@ -13,11 +13,6 @@ const NavBar = ({loggedOnUser}) => {
           <a className="navbar-brand" href="#">Restaurant Reviewer</a>
         </div>
         <div className="collapse navbar-collapse" id="myNavbar">
-          <ul className="nav navbar-nav">
-            <li className="active"><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li>
-          </ul>
           <ul className="nav navbar-nav navbar-right">
             <li><a href="#"><span className="glyphicon glyphicon-user"></span> Hello {loggedOnUser.name}!</a></li>
           </ul>

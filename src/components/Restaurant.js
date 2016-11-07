@@ -6,7 +6,7 @@ const Restaurant = ({setSelectedRestaurant, restaurants}) => {
     <div className="list-group">
     {
       restaurants.map(restaurant => {
-        let sum = 0
+        let sum = 0;
         for (let i = 0; i < restaurant.ratings.starsCount.length; i++) {
           sum += restaurant.ratings.starsCount[i].stars;
         }
@@ -17,11 +17,11 @@ const Restaurant = ({setSelectedRestaurant, restaurants}) => {
               <AverageRating stars={Math.round(sum / restaurant.ratings.starsCount.length)}/>
             </div>
           </a>
-        )
+        );
       })
     }
     </div>
-  )
+  );
 }
 
 export default Restaurant
